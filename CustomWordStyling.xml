@@ -19,7 +19,7 @@
     <Host Name="Document"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://dinoosauro.github.io/custom-word-styling/"/>
+    <SourceLocation DefaultValue="https://dinoosauro.github.io/custom-word-styling/?ForceOfficeUI=1"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
