@@ -1,0 +1,1 @@
+export type HelperType = "CellSpacing" | "Indent" | "ListNumberFormat" | "ListSecondLine" | "ParagraphSameLine" | "ParagraphSamePage" | "Shading" | "LevelOutline" | "ListPosition"

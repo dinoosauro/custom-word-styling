@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./logo-light.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Word Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+      <script>
+    const version = "1.0.0";
+    (async () => {
+      const result = await navigator.serviceWorker.register('./service-worker.js');
+      if (navigator.onLine) await result.update();
+    })();
+    fetch("./updatecode", { cache: "no-store" }).then((res) => res.text().then((text) => { if (text.replace("\n", "") !== version) if (confirm(`There's a new version of Custom Word Styling. Do you want to update? [${version} --> ${text.replace("\n", "")}]`)) { caches.delete("customwordstyling-cache"); location.reload(true); } }).catch((e) => { console.error(e) })).catch((e) => console.error(e)); // Check if the application code is the same as the current application version and, if not, ask the user to update
+  </script>
+
+  </body>
+</html>

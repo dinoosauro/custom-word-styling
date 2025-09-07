@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/index.css">
+    <link rel="icon" href="./logo_light.svg">
+    <title>Download started</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="flex hcenter gap">
+        <img style="width: 48px; height: 48px" src="./logo_light.svg"
+            alt="Website icon. Click on it to go back to the Selection tab">
+        <h1>Custom Word Styling</h1>
+    </div>
+    <h2>The download has started</h2>
+    <p>If you don't see your download, <a id="link">click here</a></p>
+    <script>
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        document.getElementById("link").href = URL.createObjectURL(new Blob([params.get("data")]))
+        document.getElementById("link").download = params.get("name");
+        document.getElementById("link").click();
+    </script>
+</body>
+
+</html>

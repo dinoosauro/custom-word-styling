@@ -1,0 +1,245 @@
+:root {
+  --font: "Work Sans", sans-serif;
+  --text: #fafafa;
+  --background: #151515;
+  --card: #313131;
+  --input: #515151;
+  --accent: #697446;
+  --hover-filter: 130%;
+  --active-filter: 150%;
+  --progress: 360deg;
+}
+
+body {
+  padding: 10px;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+.card,
+.secondCard {
+  padding: 10px;
+  border-radius: 12px;
+  background-color: var(--card);
+}
+
+button,
+input:not([type=checkbox]),
+select {
+  padding: 10px;
+  background-color: var(--accent);
+  color: var(--text);
+  font-family: var(--font);
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  border-radius: 12px;
+  border: 1px solid var(--text);
+  font-size: 14px;
+}
+
+select {
+  appearance: none;
+  padding-right: 34px;
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.selectContainer::before {
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'><path fill='%23fafafa' d='M4.957 5a1 1 0 0 0-.821 1.571l2.633 3.784a1.5 1.5 0 0 0 2.462 0l2.633-3.784A1 1 0 0 0 11.043 5H4.957Z' /></svg>");
+  mask-repeat: no-repeat;
+  mask-position: calc(100% - 4px);
+  mask-size: 24px auto;
+  background-color: var(--text);
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.wcenter {
+  justify-content: center;
+}
+
+input {
+  background-color: var(--input) !important;
+  padding: 5px !important;
+  height: 30px;
+}
+
+button {
+  transition: 0.2s ease-in-out;
+}
+
+button:hover {
+  filter: brightness(var(--hover-filter));
+  cursor: pointer;
+}
+
+button:active {
+  filter: brightness(var(--active-filter));
+}
+
+.flex {
+  display: flex;
+}
+
+.hcenter {
+  align-items: center;
+}
+
+.gap {
+  gap: 10px;
+}
+
+.secondCard {
+  background-color: var(--input);
+}
+
+.secondCard input {
+  background-color: var(--card) !important;
+}
+
+select {
+  width: 100%;
+}
+
+input[type=checkbox] {
+  appearance: none;
+  border-radius: 3px;
+  background-color: var(--card) !important;
+  border: 2px solid var(--text);
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  max-width: 24px;
+  max-height: 24px;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+input[type=checkbox]:checked {
+  background-color: var(--accent) !important;
+  transition: background-color 0.2s ease-in-out
+}
+
+input[type=checkbox]:before {
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  height: 80%;
+  background-color: var(--text);
+  mask: url('data:image/svg+xml;utf8,<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40.3166 12.6953C40.8991 13.2844 40.8937 14.2342 40.3046 14.8166L18.0547 36.8166C17.4736 37.3912 16.5396 37.3949 15.954 36.8251L6.70397 27.8251C6.11021 27.2474 6.0972 26.2977 6.67491 25.704C7.25262 25.1102 8.20228 25.0972 8.79603 25.6749L16.9915 33.6489L38.1953 12.6834C38.7844 12.1009 39.7342 12.1063 40.3166 12.6953Z" fill="%23212121"/></svg>') no-repeat center center;
+  mask-size: contain;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+input[type=checkbox]:checked::before {
+  opacity: 1;
+}
+
+input[type=checkbox]:hover,
+input[type=checkbox]:hover::before,
+select:hover,
+select:hover::before,
+.hover:hover, u:hover {
+  cursor: pointer !important;
+}
+
+.discard {
+  text-align: center;
+  display: block
+}
+
+.chip {
+  white-space: nowrap;
+  border-radius: 16px;
+  width: 100%;
+}
+
+.dialog {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(8px) brightness(40%);
+  -webkit-backdrop-filter: blur(8px) brightness(40%);
+  position: fixed;
+  z-index: 2;
+}
+
+.dialog>div {
+  position: fixed;
+  top: 15vh;
+  left: 15vw;
+  width: calc(70vw - 30px);
+  max-height: calc(70vh - 30px);
+  overflow: auto;
+  padding: 15px;
+  background-color: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--text);
+}
+
+.spinner {
+  width: min(20vw, 20vh);
+  height: min(20vw, 20vh);
+  position: fixed;
+  border-radius: 50%;
+  background: conic-gradient(
+        var(--accent) 0deg,
+        var(--accent) var(--progress),
+        var(--background) var(--progress),
+        var(--background) 360deg
+    );
+    border: 1px solid var(--text);
+  top: calc(50vh - calc(min(20vw, 20vh) / 2));
+  left: calc(50vw - calc(min(20vw, 20vh) / 2));
+  transition: 0.2s ease-in-out;
+  animation: spinnerAnimate 1s infinite;
+}
+
+@keyframes spinnerAnimate {
+  0% {
+    scale: 1
+  }
+
+  70% {
+    scale: 0
+  }
+
+  100% {
+    scale: 1
+  }
+}
+
+.help {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 2px;
+}
+.help:hover {
+  cursor: help;
+}
+
+label > input {
+  width: 100% !important;
+}
+a {
+  color: var(--text);
+}
