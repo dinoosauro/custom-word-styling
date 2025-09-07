@@ -9,9 +9,9 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Custom Word Styling"/>
   <Description DefaultValue="Easily customize the styling of your Word document"/>
-  <IconUrl DefaultValue="https://dinoosauro.github.io/custom-word-stylinglogo_neutral_32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://dinoosauro.github.io/custom-word-stylinglogo_neutral_64.png"/>
-  <SupportUrl DefaultValue="https://dinoosauro.github.io/custom-word-styling?ForceOfficeUI=1"/>
+  <IconUrl DefaultValue="https://dinoosauro.github.io/custom-word-styling/logo_neutral_32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://dinoosauro.github.io/custom-word-styling/logo_neutral_64.png"/>
+  <SupportUrl DefaultValue="https://dinoosauro.github.io/custom-word-styling/?ForceOfficeUI=1"/>
   <AppDomains>
     <AppDomain>https://dinoosauro.github.io</AppDomain>
   </AppDomains>
@@ -19,7 +19,7 @@
     <Host Name="Document"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://dinoosauro.github.io/custom-word-styling"/>
+    <SourceLocation DefaultValue="https://dinoosauro.github.io/custom-word-styling/"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -64,12 +64,12 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://dinoosauro.github.io/custom-word-stylinglogo_neutral_16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://dinoosauro.github.io/custom-word-stylinglogo_neutral_32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://dinoosauro.github.io/custom-word-stylinglogo_neutral_80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://dinoosauro.github.io/custom-word-styling/logo_neutral_16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://dinoosauro.github.io/custom-word-styling/logo_neutral_32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://dinoosauro.github.io/custom-word-styling/logo_neutral_80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://dinoosauro.github.io/custom-word-styling?ForceOfficeUI=1"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://dinoosauro.github.io/custom-word-styling/?ForceOfficeUI=1"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="CommandsGroup.Label" DefaultValue="Custom Word Styling"/>
