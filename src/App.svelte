@@ -217,6 +217,11 @@
     console.error = (err) => (errorDialog = err.toString());
     window.addEventListener("error", (e) => {
       errorDialog = `${e.error.toString()}\n\nFrom line ${e.lineno}, column ${e.colno} of ${e.filename}`;
+      document.querySelector(".spinner")?.remove();
+    });
+    window.addEventListener("unhandledrejection", (e) => {
+      errorDialog = e.reason;
+      document.querySelector(".spinner")?.remove();
     })
     Office.onReady().then(() => {
       updateOfficeReady();

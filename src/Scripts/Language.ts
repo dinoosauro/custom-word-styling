@@ -192,7 +192,8 @@ const Translations = new Map<string, LanguageTranslations>([
     ["Change the number format", {it: "Cambia il formato del numero"}],
     ["Word and Office are trademarks of Microsoft. This project is no way affiliated or endorsed by Microsoft", {it: "Word e Office sono marchi di Microsoft. Questo progetto non è in alcun modo affiliato o sponsorizzato da Microsoft"}],
     ["GIF where the second last paragraph goes to the new page with the last paragraph", {it: "GIF dove il penultimo paragrafo viene spostato in una nuova pagina con l'ultimo paragrafo"}],
-    ["GIF where the entire paragraph goes to a new page", {it: "GIF dove l'intero paragrafo viene spostato in una nuova pagina"}]
+    ["GIF where the entire paragraph goes to a new page", {it: "GIF dove l'intero paragrafo viene spostato in una nuova pagina"}],
+    ["Store these settings so that they'll be restored the next time you'll open the add-in", {it: "Salva queste impostazioni in modo da ripristinarle la prossima volta che aprirai l'add-in"}]
 ])
 
 let isOfficeReady = false;
