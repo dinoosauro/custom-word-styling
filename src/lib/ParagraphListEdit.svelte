@@ -3,6 +3,7 @@
     import { lang } from "../Scripts/Language";
     import { cubicInOut } from "svelte/easing";
     import { onMount } from "svelte";
+    import Card from "./Card.svelte";
     const spinner = document.createElement("div");
     spinner.classList.add("spinner");
     let info = $state({
@@ -89,7 +90,7 @@
     {lang("Edit level")}
     <input type="number" min="1" bind:value={selectedItem} />
 </label><br />
-<div class="secondCard">
+<Card secondCard={true}>
     <label class="flex hcenter gap">
         {lang("Alignment")}:
         <div class="selectContainer">
@@ -112,7 +113,7 @@
             out:slide={{ duration: 400, easing: cubicInOut }}
         >
             <br />
-            <div class="card">
+            <Card>
                 <label class="flex hcenter gap">
                     {lang("Bullet type")}:
                     <div class="selectContainer">
@@ -146,7 +147,7 @@
                         </label>
                     </div>
                 {/if}
-            </div>
+                </Card>
         </div>
     {/if}<br />
     <label class="flex hcenter gap">
@@ -160,7 +161,7 @@
             out:slide={{ duration: 400, easing: cubicInOut }}
         >
             <br />
-            <div class="card">
+            <Card>
                 <label class="flex hcenter gap">
                     {lang("Text indentation")}:
                     <input type="number" bind:value={info.indent.newIndent} />
@@ -172,7 +173,7 @@
                         bind:value={info.indent.indentBeforePoint}
                     />
                 </label>
-            </div>
+            </Card>
         </div>
     {/if}<br />
     <label class="flex hcenter gap">
@@ -187,7 +188,7 @@
             out:slide={{ duration: 400, easing: cubicInOut }}
         >
             <br />
-            <div class="card">
+            <Card>
                 <label class="flex hcenter gap">
                     {lang("Number type")}:
                     <div class="select">
@@ -210,7 +211,7 @@
                         out:slide={{ duration: 400, easing: cubicInOut }}
                     >
                         <br />
-                        <div class="secondCard">
+                        <Card secondCard={true}>
                             <p>
                                 {lang(
                                     "Write here the number format. Note that:",
@@ -238,10 +239,10 @@
                                 type="text"
                                 bind:value={info.numberInfo.numberSyntax}
                             />
-                        </div>
+                        </Card>
                     </div>
                 {/if}
-            </div>
+                </Card>
         </div>
     {/if}<br />
     <label class="flex hcenter gap">
@@ -392,4 +393,4 @@
             }, 5);
         }}>{lang("Save")}</button
     >
-</div>
+    </Card>

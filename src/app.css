@@ -243,3 +243,8 @@ label > input {
 a {
   color: var(--text);
 }
+
+input[type=range] {
+  width: 100%;
+  padding: 0px 1px !important;
+}

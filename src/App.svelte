@@ -17,6 +17,8 @@
     import { lang, updateOfficeReady } from "./Scripts/Language";
     import OpenSourceDialog from "./lib/OpenSourceDialog.svelte";
     import ParagraphListEdit from "./lib/ParagraphListEdit.svelte";
+    import Card from "./lib/Card.svelte";
+    import AddShapeMainContent from "./lib/AddShapeMainContent.svelte";
   /**
    * The currently-selected style that is being edited.
    *
@@ -31,7 +33,8 @@
     | "styleChange"
     | "paragraphChange"
     | "styleApply"
-    | "styleExport" = $state("none");
+    | "styleExport"
+    | "newShape" = $state("none");
   /**
    * The `items` property of the StyleCollection fetched from Word API.
    * This object is provided only so that the style name can be read, but must not be used, since updating a property there would also change it in Word, making the "Discard" function useless.
@@ -294,7 +297,7 @@
 
   <div>
     {#if appSection === "none"}
-      <div class="card">
+      <Card>
         <h2>{lang("Change styles")}:</h2>
         <p>{lang("Change the styles of your document, and create new ones.")}</p>
         <button
@@ -307,9 +310,9 @@
             }, 1);
           }}>{lang("Load styles")}</button
         >
-      </div>
+      </Card>
       <br />
-      <div class="card">
+      <Card>
         <h2>{lang("Apply style")}:</h2>
         <p>{lang("Apply a style to the text you've selected on Word")}.</p>
         <button
@@ -322,9 +325,9 @@
             }, 1);
           }}>{lang("Load styles")}</button
         >
-      </div>
+      </Card>
       <br />
-      <div class="card">
+      <Card>
         <h2>{lang("Change selection")}:</h2>
         <p>{lang("Change how the selected text looks, without creating a new style")}.</p>
         <button
@@ -336,9 +339,14 @@
             }, 1);
           }}>{lang("Get selection")}</button
         >
-      </div>
+      </Card><br>
+      <Card>
+        <h2>{lang("Customize shapes")}:</h2>
+        <p>{lang("Create a new shape with a custom border radius, background color (both plain and gradient) or background image")}.</p>
+        <button onclick={() => (appSection = "newShape")}>{lang("Create new shape")}</button>
+      </Card>
       <br />
-      <div class="card">
+      <Card>
         <h2>{lang("Export styles")}:</h2>
         <p>{lang("You'll be able to choose which styles to export in a JSON file")}.</p>
         <button
@@ -351,9 +359,9 @@
             }, 1);
           }}>{lang("Export styles")}</button
         >
-      </div>
+      </Card>
       <br />
-      <div class="card">
+      <Card>
         <h2>{lang("Import styles")}</h2>
         <p>
           {lang("If you've exported a JSON file before, you can import its styles here")}.
@@ -371,7 +379,7 @@
         <button
           onclick={() => ImportStyles(mergeStyleOption)}>{lang("Pick JSON file")}</button
         >
-      </div>
+     </Card>
     {:else if appSection === "styleChange"}
       <div class="flex hcenter gap">
         {#key rerenderSelect}
@@ -399,7 +407,7 @@
         >
       </div>
       <br />
-      <div class="card">
+      <Card>
         <div class="flex gap" style="overflow: auto">
           {#each [["font", "Font options"], ["paragraph", "Paragraph options"], ["border", "Border options"], ["general", "General options"], ["shading", "Shading options"], ...(availableItems[index].type === "Table" ? [["table", "Table options"]] : []), ...(shouldListTabBeVisible ? [["list", "List options"]] : [])] as [key, title]}
             <button
@@ -413,56 +421,56 @@
             </button>
           {/each}
         </div>
-      </div>
+      </Card>
       <br />
       {#if currentlyChosenTab === "font"}
-        <div class="card">
+        <Card>
           <h2>{lang("Font")}:</h2>
           <FontChange sourceFont={availableItems[index].font}></FontChange>
-        </div>
+        </Card>
       {/if}
       {#if currentlyChosenTab === "paragraph"}
-        <div class="card">
+        <Card>
           <h2>{lang("Paragraph")}:</h2>
           <ParagraphChange
             isParagraphFormat={true}
             sourceParagraph={availableItems[index].paragraphFormat}
           ></ParagraphChange>
-        </div>
+        </Card>
       {/if}
       {#if currentlyChosenTab === "border"}
-        <div class="card">
+        <Card>
           <h2>{lang("Border")}:</h2>
           <BorderChange sourceBorder={availableItems[index].borders}
           ></BorderChange>
-        </div>
+        </Card>
       {/if}
       {#if currentlyChosenTab === "shading"}
-        <div class="card">
+        <Card>
           <h2><span class="help" onclick={() => (helperProp = "Shading")}>{lang("Shading (background color)")}:</span></h2>
           <ShadingChange sourceShading={availableItems[index].shading}
           ></ShadingChange>
-        </div>
+        </Card>
       {/if}
       {#if currentlyChosenTab === "table"}
-        <div class="card">
+        <Card>
           <h2>{lang("Table")}:</h2>
           <TableChange sourceTable={availableItems[index].tableStyle}
           ></TableChange>
-        </div>
+        </Card>
       {/if}
       {#if shouldListTabBeVisible && currentlyChosenTab === "list"}
-        <div class="card">
+        <Card>
           <h2>{lang("List order")}:</h2>
           <ListOrderChange sourceList={availableItems[index].listTemplate}
           ></ListOrderChange>
-        </div>
+        </Card>
       {/if}
       {#if currentlyChosenTab === "general"}
-        <div class="card">
+        <Card>
           <h2>{lang("General options")}:</h2>
           <NormalItemChange generalStyle={availableItems[index]}></NormalItemChange>
-        </div>
+        </Card>
       {/if}
       <br /><br />
       <button
@@ -594,26 +602,26 @@
         }}>{lang("Apply")}</button
       >
     {:else if appSection === "paragraphChange"}
-      <div class="card">
+      <Card>
         <h2>{lang("Font")}:</h2>
         <FontChange sourceFont={selectedParagraph.font}></FontChange>
-      </div>
+      </Card>
       <br />
       {#if selectedParagraph.paragraphs?.length > 0}
-        <div class="card">
+        <Card>
           <h2>{lang("Paragraph")}:</h2>
           <ParagraphChange
             isParagraphFormat={false}
             sourceParagraph={selectedParagraph.paragraphs[0]}
           ></ParagraphChange>
-        </div>
+        </Card>
       {/if}
       {#if selectedParagraph.lists?.length > 0}
       <br>
-      <div class="card">
+      <Card>
         <h2>{lang("Lists")}:</h2>
         <ParagraphListEdit></ParagraphListEdit>
-      </div>
+      </Card>
       {/if}
       <br />
       <button
@@ -713,6 +721,10 @@
         }
       }}>{lang("Toggle all checkboxes")}</button>
     </div>
+    {:else if appSection === "newShape"}
+      <Card>
+        <AddShapeMainContent></AddShapeMainContent>
+      </Card>
     {/if}<br /><br />
     <div class="flex gap" style="flex-wrap: wrap;">
       <u

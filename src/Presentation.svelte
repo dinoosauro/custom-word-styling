@@ -81,7 +81,7 @@
                     </h1>
                     <p>
                         Create some styles you can quickly apply from Word,
-                        import and export them, or just change even the
+                        import and export them, create new shapes with custom colors and gradients, or just change even the
                         slightest details of the paragraphs, tables or lists
                         you've already written. All for free.
                     </p>

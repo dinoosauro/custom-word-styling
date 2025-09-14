@@ -193,12 +193,69 @@ const Translations = new Map<string, LanguageTranslations>([
     ["Word and Office are trademarks of Microsoft. This project is no way affiliated or endorsed by Microsoft", {it: "Word e Office sono marchi di Microsoft. Questo progetto non è in alcun modo affiliato o sponsorizzato da Microsoft"}],
     ["GIF where the second last paragraph goes to the new page with the last paragraph", {it: "GIF dove il penultimo paragrafo viene spostato in una nuova pagina con l'ultimo paragrafo"}],
     ["GIF where the entire paragraph goes to a new page", {it: "GIF dove l'intero paragrafo viene spostato in una nuova pagina"}],
-    ["Store these settings so that they'll be restored the next time you'll open the add-in", {it: "Salva queste impostazioni in modo da ripristinarle la prossima volta che aprirai l'add-in"}]
+    ["Store these settings so that they'll be restored the next time you'll open the add-in", {it: "Salva queste impostazioni in modo da ripristinarle la prossima volta che aprirai l'add-in"}],
+    ["Rounded rectangle", {it: "Rettangolo arrotondato"}],
+    ["A rounded rectangle will be created. You can change its shape from Word's Shape settings.", {it: "Verrà creato un rettangolo arrotondato. Potrai cambiare la sua forma dalle impostazioni della forma di Word."}],
+    ["Width (in points):", {it: "Larghezza (in punti):"}],
+    ["Height (in points):", {it: "Altezza (in punti):"}],
+    ["Border radius, from 0 (square) to 0.5 (circle):", {it: "Raggio del bordo, da 0 (quadrato) a 0.5 (cerchio):"}],
+    ["Fill", {it: "Riempimento"}],
+    ["Single color", {it: "Colore singolo"}],
+    ["Gradient", {it: "Sfumatura"}],
+    ["Image", {it: "Immagine"}],
+    ["Select the color", {it: "Seleziona il colore"}],
+    ["Gradient angle", {it: "Angolo della sfumatura"}],
+    ["Add colors", {it: "Aggiungi colori"}],
+    ["Color", {it: "Colore"}],
+    ["Position of this color (between 0 and 1)", {it: "Posizione di questo colore (tra 0 e 1)"}],
+    ["Add a PNG instead of a JPEG", {it: "Aggiungi un PNG al posto di un JPEG"}],
+    ["Output image quality (for JPEG)", {it: "Qualità dell'immagine di destinazione (per il JPEG)"}],
+    ["Keep aspect ratio by resizing", {it: "Mantieni l'aspect ratio ridimensionando"}],
+    ["the height", {it: "l'altezza"}],
+    ["the width", {it: "la larghezza"}],
+    ["none of the above", {it: "nessuna delle precedenti"}],
+    ["Pick image", {it: "Scegli immagine"}],
+    ["Copy from clipboard", {it: "Copia dagli appunti"}],
+    ["Add shape", {it: "Aggiungi forma"}],
+    ["Transparency", {it: "Trasparenza"}],
+    ["Advanced border settings", {it: "Impostazioni avanzate sul bordo"}],
+    ["Line type", {it: "Tipo di linea"}],
+    ["Single", {it: "Singola"}],
+    ["Double", {it: "Doppia"}],
+    ["Double (thick and thin)", {it: "Doppia (spessa e sottile)"}],
+    ["Double (thin and tick)", {it: "Doppia (sottile e spessa)"}],
+    ["Triple", {it: "Tripla"}],
+    ["Line style", {it: "Stile della linea"}],
+    ["Normal", {it: "Normale"}],
+    ["Dotted", {it: "Punteggiato"}],
+    ["Dashed", {it: "Tratteggiato"}],
+    ["Long dashes", {it: "Tratteggiato lungo"}],
+    ["Dashes with dots", {it: "Trattini con punti"}],
+    ["Really long dashes", {it: "Tratteggiato molto lungo"}],
+    ["Really long dashes with dots", {it: "Tratteggiato molto lungo con puntini"}],
+    ["Really long dashes with double dots", {it: "Tratteggiato molto lungo con puntini doppi"}],
+    ["Border color:", {it: "Colore del bordo:"}],
+    ["None", {it: "Nessuno"}],
+    ["Plain color", {it: "Colore semplice"}],
+    ["Linear gradient", {it: "Sfumatura lineare"}],
+    ["Border size (in points)", {it: "Dimensione del bordo (in punti)"}],
+    ["Select an image", {it: "Seleziona un'immagine"}],
+    ["Selected image", {it: "Immagine selezionata"}],
+    ["transparency", {it: "trasparenza"}],
+    ["position", {it: "posizione"}],
+    ["Customize shapes", {it: "Personalizza forme"}],
+    ["Create a new shape with a custom border radius, background color (both plain and gradient) or background image", {it: "Crea una nuova forma con un raggio del bordo personalizzato e con un colore (sia normale che con sfumatura) od un'immagine come sfondo"}],
+    ["Create new shape", {it: "Crea nuova forma"}]
 ])
 
 let isOfficeReady = false;
 export const updateOfficeReady = () => (isOfficeReady = true);
 
+/**
+ * Get the translation of a string
+ * @param str the string to translate
+ * @returns the translated string
+ */
 export function lang(str: string) {
     if (!isOfficeReady) return str;
     const temp = Translations.get(str);

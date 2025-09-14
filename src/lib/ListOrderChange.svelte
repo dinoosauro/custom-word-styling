@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { HelperType } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
+    import Card from "./Card.svelte";
     import FontChange from "./FontChange.svelte";
     import HelperDialogs from "./HelperDialogs.svelte";
 
@@ -16,7 +17,7 @@
 <label class="flex hcenter gap">
     <input type="checkbox" bind:checked={sourceList.outlineNumbered} />{lang("Is an ordered (numeric) list")}
 </label><br /><br />
-<div class="secondCard">
+<Card secondCard={true}>
     <div class="selectContainer">
         <select bind:value={listItems}>
             {#each sourceList.listLevels.items as item, i}
@@ -46,7 +47,7 @@
         />
         {lang("should appear before restarting counting from 1")}
     </label><br />
-    <div class="card">
+    <Card>
         <h3>{lang("Blank spaces")}:</h3>
         <label class="flex hcenter gap">
             {lang("Blank space (in points) at the left of the list")}
@@ -85,9 +86,9 @@
                 </select>
             </div>
         </label>
-    </div>
+    </Card>
     <br />
-    <div class="card">
+    <Card>
         <h3>{lang("Number-specific list options")}:</h3>
         <label class="flex hcenter gap">
             <span class="help" onclick={() => (helperProp = "ListNumberFormat")}>{lang("Number format")}:</span>
@@ -116,16 +117,16 @@
                 bind:value={sourceList.listLevels.items[listItems].startAt}
             />
         </label>
-    </div>
+    </Card>
     <br />
-    <div class="card">
+    <Card>
         <h3>{lang("Font options (probably won't work)")}:</h3>
         {#if sourceList.listLevels.items[listItems].font}
             <FontChange sourceFont={sourceList.listLevels.items[listItems].font}
             ></FontChange>
         {/if}
-    </div>
-</div>
+    </Card>
+</Card>
 
 {#if helperProp}
 <HelperDialogs helperType={helperProp} callback={() => (helperProp = undefined)}></HelperDialogs>

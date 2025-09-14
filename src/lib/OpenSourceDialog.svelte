@@ -2,6 +2,7 @@
     import { cubicInOut } from "svelte/easing";
     import { fade } from "svelte/transition";
     import { lang } from "../Scripts/Language";
+    import Card from "./Card.svelte";
     let selectedLicense = $state("Svelte");
     interface LicenseInfo {
         url: string,
@@ -31,7 +32,7 @@
                 <option value="Custom Word Style">Custom Word Style</option>
             </select>
         </div><br>
-        <div class="secondCard">
+        <Card secondCard={true}>
             <h3><u onclick={() => Office.isSetSupported("OpenBrowserWindowApi", "1.1") && Office.context.ui.openBrowserWindow(authorMap.get(selectedLicense)?.url as string)}>{selectedLicense}</u></h3>    
             {#if !Office.isSetSupported("OpenBrowserWindowApi", "1.1")}
             <i>{authorMap.get(selectedLicense)?.url}</i><br><br>
@@ -57,7 +58,7 @@
                 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
                 SOFTWARE.
             </p>
-        </div><br>
+        </Card><br>
         <button onclick={() => callback()}>{lang("Close")}</button>
     </div>
 </div>

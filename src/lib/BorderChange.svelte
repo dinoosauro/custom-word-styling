@@ -1,5 +1,6 @@
 <script lang="ts">
     import { lang } from "../Scripts/Language";
+    import Card from "./Card.svelte";
     import DeleteButton from "./DeleteButton.svelte";
 
     const {
@@ -13,7 +14,7 @@
 </script>
 
 {#each ["Inside", "Outside"] as key}
-    <div class="secondCard">
+    <Card secondCard={true}>
         <h3>{lang(`${key} border`)}:</h3>
         <label class="flex hcenter gap">
             {lang("Color")}: <input
@@ -73,11 +74,11 @@
                 </select>
             </div>
         </label>
-    </div>
+    </Card>
     <br />
 {/each}
 {#if sourceBorder.items?.length > 0}
-    <div class="secondCard">
+    <Card secondCard={true}>
         <h3>{lang("Specific border options")}:</h3>
         <div class="selectContainer">
             <select bind:value={specificBorderIndex}>
@@ -125,5 +126,5 @@
                 {/each}
             </select>
         </label><br>
-    </div>
+   </Card>
 {/if}

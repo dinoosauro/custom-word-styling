@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { HelperType } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
+    import Card from "./Card.svelte";
     import HelperDialogs from "./HelperDialogs.svelte";
 
     const {
@@ -51,7 +52,7 @@
         </select>
     </div>
 </label><br />
-<div class="secondCard">
+<Card secondCard={true}>
     <h3>{lang("Indentation")}:</h3>
     <label class="flex hcenter gap" style="flex-wrap: wrap;">
         <label class="flex hcenter gap" style="gap: 5px">
@@ -69,9 +70,9 @@
             />
         </label>
     </label>
-</div>
+</Card>
 <br />
-<div class="secondCard">
+<Card secondCard={true}>
     <h3>{lang("Spacing")}:</h3>
     <label class="flex hcenter gap">
         {lang("Line spacing")}: <input
@@ -91,7 +92,7 @@
             bind:value={sourceParagraph.spaceAfter}
         />
     </label>
-</div>
+</Card>
 
 {#if helperProp}
 <HelperDialogs helperType={helperProp} callback={() => (helperProp = undefined)}></HelperDialogs>

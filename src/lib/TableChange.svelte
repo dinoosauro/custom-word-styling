@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { HelperType } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
+    import Card from "./Card.svelte";
     import HelperDialogs from "./HelperDialogs.svelte";
 
     const {
@@ -28,7 +29,7 @@
 <label class="flex hcenter gap">
     <span class="help" onclick={() => (helperProp = "CellSpacing")}>{lang("Cell spacing")}:</span> <input type="number" bind:value={sourceTable.cellSpacing} />
 </label><br />
-<div class="secondCard">
+<Card secondCard={true}>
     <h3>{lang("Cell margin")}:</h3>
     <label class="flex hcenter gap" style="flex-wrap: wrap">
         {#each [["top", "Top"], ["bottom", "Bottom"], ["left", "Left"], ["right", "Right"]] as [key, title]}
@@ -42,7 +43,7 @@
             </label>
         {/each}
     </label>
-</div>
+</Card>
 
 {#if helperProp}
 <HelperDialogs helperType={helperProp} callback={() => (helperProp = undefined)}></HelperDialogs>
