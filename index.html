@@ -14,8 +14,10 @@
       <script>
     const version = "1.1.0.0";
     (async () => {
-      const result = await navigator.serviceWorker.register('./service-worker.js');
-      if (navigator.onLine) await result.update();
+      if ("serviceWorker" in navigator) {
+        const result = await navigator.serviceWorker.register('./service-worker.js');
+        if (navigator.onLine) await result.update();
+      }
     })();
     fetch("./updatecode", { cache: "no-store" }).then((res) => res.text().then((text) => { if (text.replace("\n", "") !== version) if (confirm(`There's a new version of Custom Word Styling. Do you want to update? [${version} --> ${text.replace("\n", "")}]`)) { caches.delete("customwordstyling-cache"); location.reload(true); } }).catch((e) => { console.error(e) })).catch((e) => console.error(e)); // Check if the application code is the same as the current application version and, if not, ask the user to update
   </script>
