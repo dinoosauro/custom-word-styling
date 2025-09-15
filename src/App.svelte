@@ -630,7 +630,7 @@
           setTimeout(async () => {
             await Word.run(async (ctx) => {
               // Get the select range, and change the font and paragraph properties
-              const range = ctx.document.body.getRange().load();
+              const range = ctx.document.getSelection().load();
               await ctx.sync();
               const font = range.font.load();
               await ctx.sync();
