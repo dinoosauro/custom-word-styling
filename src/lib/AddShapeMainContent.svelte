@@ -104,8 +104,8 @@
 <h2>{lang("Rounded rectangle")}:</h2>
 <p>
     {lang(
-        "A rounded rectangle will be created. You can change its shape from Word's Shape settings.",
-    )}
+        "A rounded rectangle will be created. You can later change its type from the \"Change selection\" section of this add-in after you've the shape (not just by clicking it, but by selecting the paragraph it's contained to)",
+    )}.
 </p>
 <label class="flex hcenter gap">
     {lang("Width (in points):")}
