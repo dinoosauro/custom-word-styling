@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AvailableShapes } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
     import CreateRoundedShape from "../Scripts/RoundedShape";
     import Card from "./Card.svelte";
@@ -99,14 +100,23 @@
      * It usually contains two values, separated by a space, so that two different properties can be updated.
      */
     let borderLineStyle = "normal";
+    /**
+     * The selected shape type
+     */
+    let outputShape = "RoundRectangle";
 </script>
 
-<h2>{lang("Rounded rectangle")}:</h2>
-<p>
-    {lang(
-        "A rounded rectangle will be created. You can later change its type from the \"Change selection\" section of this add-in after you've the shape (not just by clicking it, but by selecting the paragraph it's contained to)",
-    )}.
-</p>
+<h2>{lang("Custom shape")}:</h2>
+<label class="flex hcenter gap">
+    {lang("Shape type")}:
+    <div class="selectContainer">
+        <select bind:value={outputShape}>
+            {#each AvailableShapes as option}
+            <option value={option}>{option}</option>
+            {/each}
+        </select>
+    </div>
+</label><br>
 <label class="flex hcenter gap">
     {lang("Width (in points):")}
     <input type="number" min="0" bind:value={width} />
@@ -357,6 +367,7 @@
                 transparency: colorTransparency,
                 deleteBackground: fillType === "none",
             },
+            shapeType: outputShape
         });
     }}>{lang("Add shape")}</button
 >

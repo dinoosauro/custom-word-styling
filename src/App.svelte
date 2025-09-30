@@ -642,6 +642,7 @@
       </Card>
       {/if}
       {#if selectedParagraph.shapes?.length > 0}
+      <br>
       <Card>
         <h2>{lang("Shapes")}:</h2>
         <EditSelectedShape shape={selectedParagraph.shapes[0]}></EditSelectedShape>

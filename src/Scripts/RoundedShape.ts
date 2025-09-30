@@ -96,12 +96,16 @@ interface Props {
          * If the plain color shouldn't be added
          */
         deleteBackground?: boolean
-    }
+    },
+    /**
+     * The type of the shape to create
+     */
+    shapeType: string
 }
 /**
- * Create a rounded shape, and add it in the document
+ * Create a new shape, and add it in the document
  */
-export default async function CreateRoundedShape({ color, gradient, image, width, height, borderRadius, border, plainColorSettings }: Props) {
+export default async function CreateRoundedShape({ color, gradient, image, width, height, borderRadius, border, plainColorSettings, shapeType }: Props) {
     // Placeholder for the shape style I want
     const XMLDoc = new DOMParser().parseFromString(`<?xml version="1.0" standalone="yes"?>
 <?mso-application progid="Word.Document"?>
@@ -437,10 +441,15 @@ export default async function CreateRoundedShape({ color, gradient, image, width
             const outputHeight = ((widthNumber * (image.scaleType === "keepWidth" ? image.height : image.width)) / (image.scaleType === "keepWidth" ? image.width : image.height)).toFixed(2);
             outputOoxml = outputOoxml.replaceAll(`${image.scaleType === "keepWidth" ? "height" : "width"}:${image.scaleType === "keepWidth" ? "124.4" : "208.5"}pt`, `${image.scaleType === "keepWidth" ? "height" : "width"}:${outputHeight}pt`).replaceAll(`c${image.scaleType === "keepWidth" ? "y" : "x"}="${image.scaleType === "keepWidth" ? "1580083" : "2648102"}"`, `c${image.scaleType === "keepWidth" ? "y" : "x"}="${Math.round(+outputHeight * 12700)}"`);
         }
-        // And finally we'll apply the custom width/height set by the user
+        // Now we apply the custom width/height set by the user
         if (image?.scaleType !== "keepWidth") outputOoxml = outputOoxml.replaceAll("height:124.4pt", `height:${height}pt`).replaceAll(`cy="1580083"`, `cy="${Math.round(+height * 12700)}"`);
         if (image?.scaleType !== "keepHeight") outputOoxml = outputOoxml.replaceAll("width:208.5pt", `width:${width}px`).replaceAll(`cx="2648102"`, `cx="${Math.round(+width * 12700)}"`);
-        ctx.document.body.insertOoxml(outputOoxml, "End");
+        // And finally we add the temp rounded rectangle to the document, and we'll update its shape to the one asked by the user.
+        const result = ctx.document.body.insertOoxml(outputOoxml, "End");
+        await ctx.sync();
+        const shapes = result.shapes.load();
+        await ctx.sync();
+        shapes.items[0].geometricShapeType = shapeType as "RoundRectangle";
         await ctx.sync();
     })
 }

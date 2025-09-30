@@ -138,7 +138,6 @@ const Translations = new Map<string, LanguageTranslations>([
     ["Paragraph", {it: "Paragrafo"}],
     ["Border", {it: "Bordo"}],
     ["Shading (background color)", {it: "Shading (colore di sfondo)"}],
-    ["Table", {it: "Table"}],
     ["List order", {it: "Ordine della lista"}],
     ["General options", {it: "Opzioni generali"}],
     ["Font options", {it: "Opzioni del font"}],
@@ -194,8 +193,8 @@ const Translations = new Map<string, LanguageTranslations>([
     ["GIF where the second last paragraph goes to the new page with the last paragraph", {it: "GIF dove il penultimo paragrafo viene spostato in una nuova pagina con l'ultimo paragrafo"}],
     ["GIF where the entire paragraph goes to a new page", {it: "GIF dove l'intero paragrafo viene spostato in una nuova pagina"}],
     ["Store these settings so that they'll be restored the next time you'll open the add-in", {it: "Salva queste impostazioni in modo da ripristinarle la prossima volta che aprirai l'add-in"}],
-    ["Rounded rectangle", {it: "Rettangolo arrotondato"}],
-    ["A rounded rectangle will be created. You can later change its type from the \"Change selection\" section of this add-in after you've the shape (not just by clicking it, but by selecting the paragraph it's contained to)", {it: "Verrà creato un rettangolo arrotondato. Potrai cambiare il suo tipo più tardi, nella sezione \"Cambia selezione\" di questo add-in, dopo aver selezionato la forma (non basta solo cliccarla, ma bisogna selezionare il paragrafo che la contiene)"}],
+    ["Custom shape", {it: "Forma personalizzata"}],
+    ["Shape type", {it: "Tipo della forma"}],
     ["Width (in points):", {it: "Larghezza (in punti):"}],
     ["Height (in points):", {it: "Altezza (in punti):"}],
     ["Border radius, from 0 (square) to 0.5 (circle):", {it: "Raggio del bordo, da 0 (quadrato) a 0.5 (cerchio):"}],
@@ -292,7 +291,9 @@ const Translations = new Map<string, LanguageTranslations>([
     ["Left margin", {it: "Margine a sinistra"}],
     ["Right margin", {it: "Margine a destra"}],
     ["Geometric shape type", {it: "Tipo della forma geometrica"}],
-    ["Shapes", {it: "Forme"}]
+    ["Shapes", {it: "Forme"}],
+    ["Select all the cells in the selected row", {it: "Seleziona tutte le celle nella riga selezionata"}],
+    ["Select all the cells in the selected column", {it: "Seleziona tutte le celle nella colonna selezionata"}]
 ])
 
 let isOfficeReady = false;

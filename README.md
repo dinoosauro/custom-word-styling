@@ -33,6 +33,15 @@ You can update the font options, the paragraph options and the list options of t
 
 ![Custom lists options](./readme_assets/custom_list_options.jpg)
 
+You can also change lots of proprerties about the selected tables (for example, its borders, its padding etc.) and about the selected shapes (for example, their width or their type). You can find all the options in the two screenshots below.
+
+![Custom table options](./readme_assets/custom_table_options.png)
+![Custom shape options](./readme_assets/custom_shape_options.png)
+
+### Add custom shape
+
+In this section, you can add a custom shape, by changing parameters such as its border radius, its width/height, its background color (also gradients and images) etc.
+
 ### Export styles
 
 You can export one or more styles to a JSON file. A list with all the styles embedded in a document will appear, and you can select which elements to export. The file will be downloaded by opening a webpage in your browser. If this isn't possible, a link with the page to download the content will be copied in the clipboard (but you'll be notified about that). The downloads are always kept private - nothing is sent to an external server.

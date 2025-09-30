@@ -51,6 +51,52 @@
      */
     const spinner = document.createElement("div");
     spinner.classList.add("spinner");
+    /**
+     * If true, the entire column will be updated in the "single cell" mode
+     */
+    let selectAllRows = false;
+    /**
+     * If true, the entire row will be updated in the "single cell" mode
+     */
+    let selectAllColumns = false;
+    /**
+     * Get all the single cells that should be edited
+     * @param ctx the Word request context
+     */
+    async function getCells(ctx: Word.RequestContext) {
+        const range = ctx.document.getSelection().load();
+        await ctx.sync();
+        const tables = range.tables.load();
+        await ctx.sync();
+        let output: Word.TableCell[] = [];
+        for (const table of tables.items) {
+            if (selectAllRows || selectAllColumns) { // We need to get all the cells in a specific row
+                const rows = table.rows.load();
+                await ctx.sync();
+                if (selectAllColumns && !selectAllRows) { // We now need to get the cell at the selectedRow - 1 position in the array
+                    if (typeof rows.items[selectedRow - 1] === "undefined") continue; // If the table doesn't have that row, continue
+                    const cells = rows.items[selectedRow - 1].cells.load();
+                    await ctx.sync();
+                    output.push(...cells.items);
+                    continue;
+                }
+                // Otherwise, we need to get a cell per row
+                for (const row of rows.items) {
+                    const cells = row.cells.load();
+                    await ctx.sync();
+                    if (selectAllRows && selectAllColumns) { // We can just add all the cells to the output array
+                        output.push(...cells.items);
+                    } else {
+                        typeof cells.items[selectedColumn - 1] !==
+                            "undefined" &&
+                            output.push(cells.items[selectedColumn - 1]); // If the cell exists, let's add it (since each row can have a different amount of columns compared to the others)
+                    }
+                }
+            } else
+                output.push(table.getCell(selectedRow - 1, selectedColumn - 1)); // If both options are disabled, we just need to get the requested cell.
+        }
+        return output;
+    }
 </script>
 
 <label class="flex hcenter gap">
@@ -102,6 +148,12 @@
         {lang("and column")}:
         <input type="number" bind:value={selectedColumn} min="1" />
     </label><br />
+    <label class="flex hcenter gap">
+        <input type="checkbox" bind:checked={selectAllColumns}>{lang("Select all the cells in the selected row")}
+    </label><br>
+    <label class="flex hcenter gap">
+        <input type="checkbox" bind:checked={selectAllRows}>{lang("Select all the cells in the selected column")}
+    </label><br>
     <Card>
         <h4>{lang("Border")}:</h4>
         <label class="flex hcenter gap">
@@ -145,31 +197,25 @@
         <button
             onclick={async () => {
                 document.body.append(spinner);
-                setTimeout(async() => {
-                await Word.run(async (ctx) => {
-                    const range = ctx.document.getSelection().load();
-                    await ctx.sync();
-                    const tables = range.tables.load();
-                    await ctx.sync();
-                    for (const table of tables.items) {
-                        const cell = table
-                            .getCell(selectedRow - 1, selectedColumn - 1)
-                            .load();
-                        await ctx.sync();
-                        const border = cell
-                            .getBorder(selectedBorder as "Top")
-                            .load();
-                        await ctx.sync();
-                        for (const prop in borderProps)
-                            if (border[prop as "color"] !== null)
-                                border[prop as "color"] = borderProps[
-                                    prop as "color"
-                                ] as string;
-                        await ctx.sync();
-                    }
-                });
-                spinner.remove();
-                }, 1)
+                setTimeout(async () => {
+                    await Word.run(async (ctx) => {
+                        for (const cell of await getCells(ctx)) {
+                            cell.load();
+                            await ctx.sync();
+                            const border = cell
+                                .getBorder(selectedBorder as "Top")
+                                .load();
+                            await ctx.sync();
+                            for (const prop in borderProps)
+                                if (border[prop as "color"] !== null)
+                                    border[prop as "color"] = borderProps[
+                                        prop as "color"
+                                    ] as string;
+                            await ctx.sync();
+                        }
+                    });
+                    spinner.remove();
+                }, 1);
             }}>{lang("Update border")}</button
         >
     </Card><br />
@@ -195,27 +241,19 @@
             onclick={async () => {
                 document.body.append(spinner);
                 setTimeout(async () => {
-                await Word.run(async (ctx) => {
-                    const range = ctx.document.getSelection().load();
-                    await ctx.sync();
-                    const tables = range.tables.load();
-                    await ctx.sync();
-                    for (const table of tables.items) {
-                        const cell = table.getCell(
-                            selectedRow - 1,
-                            selectedColumn - 1,
-                        );
-                        for (const prop in updatePadding)
-                            updatePadding[prop as "Top"] &&
-                                cell.setCellPadding(
-                                    prop as "Top",
-                                    paddingWidth,
-                                );
-                        await ctx.sync();
-                    }
-                });
-                spinner.remove();
-                }, 1)
+                    await Word.run(async (ctx) => {
+                        for (const cell of await getCells(ctx)) {
+                            for (const prop in updatePadding)
+                                updatePadding[prop as "Top"] &&
+                                    cell.setCellPadding(
+                                        prop as "Top",
+                                        paddingWidth,
+                                    );
+                            await ctx.sync();
+                        }
+                    });
+                    spinner.remove();
+                }, 1);
             }}>{lang("Update padding")}</button
         >
     </Card><br />
@@ -260,29 +298,23 @@
             onclick={async () => {
                 document.body.append(spinner);
                 setTimeout(async () => {
-                await Word.run(async (ctx) => {
-                    const selection = ctx.document.getSelection().load();
-                    await ctx.sync();
-                    const tables = selection.tables.load();
-                    await ctx.sync();
-                    for (const table of tables.items) {
-                        const cell = table.getCell(
-                            selectedRow - 1,
-                            selectedColumn - 1,
-                        );
-                        for (const prop in singleCellProps) {
-                            if (
-                                singleCellProps[prop as "shadingColor"] !== null
-                            )
-                                cell[prop as "shadingColor"] = singleCellProps[
-                                    prop as "shadingColor"
-                                ] as unknown as string;
+                    await Word.run(async (ctx) => {
+                        for (const cell of await getCells(ctx)) {
+                            for (const prop in singleCellProps) {
+                                if (
+                                    singleCellProps[prop as "shadingColor"] !==
+                                    null
+                                )
+                                    cell[prop as "shadingColor"] =
+                                        singleCellProps[
+                                            prop as "shadingColor"
+                                        ] as unknown as string;
+                            }
+                            await ctx.sync();
                         }
-                        await ctx.sync();
-                    }
-                });
-                spinner.remove();
-            }, 1)
+                    });
+                    spinner.remove();
+                }, 1);
             }}>{lang("Update cell styling")}</button
         >
     </Card>
