@@ -103,7 +103,7 @@ button:active {
   background-color: var(--input);
 }
 
-.secondCard input {
+.secondCard > * > input, .secondCard > input, .secondCard > label > * > input{
   background-color: var(--card) !important;
 }
 

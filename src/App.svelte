@@ -19,6 +19,8 @@
     import ParagraphListEdit from "./lib/ParagraphListEdit.svelte";
     import Card from "./lib/Card.svelte";
     import AddShapeMainContent from "./lib/AddShapeMainContent.svelte";
+    import EditTableCell from "./lib/EditTableCell.svelte";
+    import EditSelectedShape from "./lib/EditSelectedShape.svelte";
   /**
    * The currently-selected style that is being edited.
    *
@@ -95,7 +97,9 @@
   let selectedParagraph: {
     font: Word.Font;
     paragraphs: Word.Paragraph[];
-    lists: Word.List[]
+    lists: Word.List[],
+    tables: Word.Table[],
+    shapes: Word.Shape[]
   };
   /**
    * The style that should be applied to the selected text.
@@ -257,10 +261,17 @@
       await ctx.sync();
       paragraph.lists.load();
       await ctx.sync();
+      paragraph.tables.load();
+      await ctx.sync();
+      // @ts-ignore
+      paragraph.shapes.load({$all: true, textFrame: true, textWrap: true, fill: true});
+      await ctx.sync();
       selectedParagraph = {
         paragraphs: JSON.parse(JSON.stringify(paragraph.paragraphs.items)),
         font: JSON.parse(JSON.stringify(paragraph.font)),
-        lists: JSON.parse(JSON.stringify(paragraph.lists.items))
+        lists: JSON.parse(JSON.stringify(paragraph.lists.items)),
+        tables: JSON.parse(JSON.stringify(paragraph.tables.items)),
+        shapes: JSON.parse(JSON.stringify(paragraph.shapes.items))
       };
       appSection = "paragraphChange";
     });
@@ -623,6 +634,20 @@
         <ParagraphListEdit></ParagraphListEdit>
       </Card>
       {/if}
+      {#if selectedParagraph.tables?.length > 0}
+      <br>
+      <Card>
+        <h2>{lang("Table")}:</h2>
+        <EditTableCell table={selectedParagraph.tables[0]}></EditTableCell>
+      </Card>
+      {/if}
+      {#if selectedParagraph.shapes?.length > 0}
+      <br>
+      <Card>
+        <h2>{lang("Shapes")}:</h2>
+        <EditSelectedShape shape={selectedParagraph.shapes[0]}></EditSelectedShape>
+      </Card>
+      {/if}
       <br />
       <button
         onclick={async () => {
@@ -666,6 +691,40 @@
                     }
                     await ctx.sync();
                   }
+                }
+              }
+              // Update tables
+              if (selectedParagraph.tables?.length > 0) {
+                const tables = range.tables.load();
+                await ctx.sync();
+                for (const table of tables.items) {
+                  for (const prop of ["alignment", "verticalAlignment", "horizontalAlignment"]) table[prop as "alignment"] = selectedParagraph.tables[0][prop as "alignment"];
+                }
+                await ctx.sync();
+              }
+              // Update shapes
+              if (selectedParagraph.shapes?.length > 0) {
+                // @ts-ignore
+                const shapes = range.shapes.load({$all: true, textFrame: true, textWrap: true, fill: true});
+                await ctx.sync();
+                for (const shape of shapes.items) {
+                  shape.lockAspectRatio = false;
+                  for (const prop in selectedParagraph.shapes[0]) {
+                    if (typeof shape[prop as "fill"] === "object") { // Nested object to update
+                      for (const secondProp in selectedParagraph.shapes[0][prop as "fill"]) {
+                        if (secondProp === "textWrap" || secondProp === "hasText") continue; // Fix NotAllowed error
+                        if (shape[prop as "fill"][secondProp as "transparency"] !== selectedParagraph.shapes[0][prop as "fill"][secondProp as "transparency"]) shape[prop as "fill"][secondProp as "transparency"] = selectedParagraph.shapes[0][prop as "fill"][secondProp as "transparency"];
+                      await ctx.sync();
+                      }
+                    } else {
+                      if (prop.startsWith("relative") || prop.endsWith("Relative")) continue;
+                      if (shape[prop as "height"] !== selectedParagraph.shapes[0][prop as "height"]) {
+                        shape[prop as "height"] = selectedParagraph.shapes[0][prop as "height"];
+                      await ctx.sync();
+                      }
+                    }
+                  }
+                  await ctx.sync();
                 }
               }
               spinner.remove();
