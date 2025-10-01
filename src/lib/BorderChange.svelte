@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AvailableBorderStyles } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
     import Card from "./Card.svelte";
     import DeleteButton from "./DeleteButton.svelte";
@@ -10,7 +11,6 @@
     } = $props();
     let specificBorderIndex = $state("0");
     const availablePoints = ["None","Pt025","Pt050","Pt075","Pt100","Pt150","Pt225","Pt300","Pt450","Pt600"];
-    const availableStyles = ["None","Single","Double","Dotted","Dashed","DotDashed","Dot2Dashed","Triple","ThinThickSmall","ThickThinSmall","ThinThickThinSmall","ThinThickMed","ThickThinMed","ThinThickThinMed","ThinThickLarge","ThickThinLarge","ThinThickThinLarge","Wave","DoubleWave","DashedSmall","DashDotStroked","ThreeDEmboss","ThreeDEngrave"];
 </script>
 
 {#each ["Inside", "Outside"] as key}
@@ -50,7 +50,7 @@
                         ]
                     }
                 >
-                    {#each availableStyles as option}
+                    {#each AvailableBorderStyles as option}
                         <option value={option}>{option}</option>
                     {/each}
                 </select>
@@ -121,7 +121,7 @@
         </label><br>
         <label class="flex hcenter gap">
             {lang("Border type")}: <select bind:value={sourceBorder.items[+specificBorderIndex].type}>
-                {#each availableStyles as option}
+                {#each AvailableBorderStyles as option}
                     <option value={option}>{option}</option>
                 {/each}
             </select>

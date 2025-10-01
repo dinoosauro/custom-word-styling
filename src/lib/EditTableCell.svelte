@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { AvailableBorderStyles } from "../Scripts/HelperType";
     import { lang } from "../Scripts/Language";
     import Card from "./Card.svelte";
     import DeleteButton from "./DeleteButton.svelte";
@@ -19,6 +20,7 @@
     let borderProps = {
         color: "#000000" as string | null,
         width: 1,
+        type: "Single"
     };
     /**
      * An object that contains all the position of the padding that needs to be updated
@@ -194,6 +196,15 @@
             {lang("Width")}:
             <input type="number" bind:value={borderProps.width} />
         </label><br />
+                <label class="flex hcenter gap">
+                    {lang("Border type")}:
+                    <div class="selectContainer">
+                    <select bind:value={borderProps.type}>
+                        {#each AvailableBorderStyles as option}
+                        <option value={option}>{option}</option>
+                        {/each}
+                    </select></div>
+                </label><br>
         <button
             onclick={async () => {
                 document.body.append(spinner);
@@ -206,11 +217,9 @@
                                 .getBorder(selectedBorder as "Top")
                                 .load();
                             await ctx.sync();
-                            for (const prop in borderProps)
-                                if (border[prop as "color"] !== null)
-                                    border[prop as "color"] = borderProps[
-                                        prop as "color"
-                                    ] as string;
+                            if (borderProps.color !== null) border.color = borderProps.color;
+                            border.type = borderProps.type as "Single";
+                            if (borderProps.width > 0) border.width = borderProps.width; else border.type = "None";
                             await ctx.sync();
                         }
                     });
