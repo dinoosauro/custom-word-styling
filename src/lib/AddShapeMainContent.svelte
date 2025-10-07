@@ -263,7 +263,7 @@
                 <input type="color" bind:value={selectedBorderColor} />
             </label><br />
             <label class="flex hcenter gap">
-                {lang("Transparency:")}
+                {lang("Transparency")}:
                 <input
                     type="range"
                     min="0"
