@@ -254,15 +254,10 @@
   async function getSelection() {
     await Word.run(async (ctx) => {
       let paragraph = ctx.document.getSelection().load();
-      await ctx.sync();
       paragraph.font.load();
-      await ctx.sync();
       paragraph.paragraphs.load();
-      await ctx.sync();
       paragraph.lists.load();
-      await ctx.sync();
       paragraph.tables.load();
-      await ctx.sync();
       // @ts-ignore
       paragraph.shapes.load({$all: true, textFrame: true, textWrap: true, fill: true});
       await ctx.sync();
@@ -656,13 +651,13 @@
             await Word.run(async (ctx) => {
               // Get the select range, and change the font and paragraph properties
               const range = ctx.document.getSelection().load();
-              await ctx.sync();
               const font = range.font.load();
               await ctx.sync();
               for (const key in selectedParagraph.font) {
                 try {
-                  font[key as "size"] = selectedParagraph.font[key as "size"];
-                  await ctx.sync();
+                  if (font[key as "size"] !== selectedParagraph.font[key as "size"]) {
+                    font[key as "size"] = selectedParagraph.font[key as "size"];
+                  }
                 } catch (ex) {
                   console.warn(ex);
                 }
@@ -684,10 +679,14 @@
                       "spaceBefore",
                       "spaceAfter",
                     ]) {
-                      paragraph[property as "spaceBefore"] =
+                      if (paragraph[property as "spaceBefore"] !== selectedParagraph.paragraphs[0][
+                          property as "spaceBefore"
+                        ]) {
+                          paragraph[property as "spaceBefore"] =
                         selectedParagraph.paragraphs[0][
                           property as "spaceBefore"
                         ];
+                        }
                     }
                     await ctx.sync();
                   }
@@ -698,7 +697,9 @@
                 const tables = range.tables.load();
                 await ctx.sync();
                 for (const table of tables.items) {
-                  for (const prop of ["alignment", "verticalAlignment", "horizontalAlignment"]) table[prop as "alignment"] = selectedParagraph.tables[0][prop as "alignment"];
+                  for (const prop of ["alignment", "verticalAlignment", "horizontalAlignment"]) {
+                    if (table[prop as "alignment"] !== selectedParagraph.tables[0][prop as "alignment"]) table[prop as "alignment"] = selectedParagraph.tables[0][prop as "alignment"];
+                  }
                 }
                 await ctx.sync();
               }
@@ -720,7 +721,6 @@
                       if (prop.startsWith("relative") || prop.endsWith("Relative")) continue;
                       if (shape[prop as "height"] !== selectedParagraph.shapes[0][prop as "height"]) {
                         shape[prop as "height"] = selectedParagraph.shapes[0][prop as "height"];
-                      await ctx.sync();
                       }
                     }
                   }

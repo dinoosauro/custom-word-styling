@@ -449,7 +449,7 @@ export default async function CreateRoundedShape({ color, gradient, image, width
         await ctx.sync();
         const shapes = result.shapes.load();
         await ctx.sync();
-        shapes.items[0].geometricShapeType = shapeType as "RoundRectangle";
+        if (shapeType !== "RoundRectangle") shapes.items[0].geometricShapeType = shapeType as "RoundRectangle";
         await ctx.sync();
     })
 }
